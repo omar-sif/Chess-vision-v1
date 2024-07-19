@@ -1,15 +1,18 @@
 
 
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     switch (message.action) {
         case 'find board':
             const img = new Image();
+            img.crossOrigin = 'anonymous';
             img.onload = function (e) {
                 console.log('image loaded');
-                const resultImg = processLoadedImage(img);
-                console.log(resultImg);
-                sendResponse({ action: 'RESULT_IMAGE', data: resultImg })
+                const result = processLoadedImage(img);
+                const resultImg = result.imageData;
+                const dataUrl = result.dataUrl; // sending image array
+                sendResponse({ action: 'RESULT_IMAGE', data: resultImg.data, dataUrl })
 
             }
             img.src = message.data;
@@ -187,9 +190,10 @@ function processLoadedImage(img) {
         bbox.tl.x * scale_factor, bbox.tl.y * scale_factor,
         bbox_width * scale_factor, bbox_height * scale_factor,
         0, 0, 240, 240);
-    // const imageData = resultCanvasElement.getContext('2d').getImageData(0, 0, 240, 240);
-    const imageData = resultCanvasElement.toDataURL()
-    return imageData
+    const imageData = resultCanvasElement.getContext('2d').getImageData(0, 0, 240, 240);
+    const dataUrl = resultCanvasElement.toDataURL();
+
+    return { imageData, dataUrl }
 }
 
 

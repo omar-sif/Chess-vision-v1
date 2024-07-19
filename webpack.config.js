@@ -14,8 +14,14 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
+        sourceMapFilename: '[name].js.map',
         clean: true
     },
+    cache: {
+        type: 'filesystem', // Enable filesystem caching
+        cacheDirectory: path.resolve(__dirname, '.webpack-cache') // Directory to store cache
+    },
+    devtool: 'source-map',
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
@@ -24,7 +30,8 @@ module.exports = {
                     to: path.resolve(__dirname, 'dist'),
                     globOptions: {
                         ignore: ['**/service_worker.js']
-                    }
+                    },
+                    force: false,
                 }
             ]
         })
