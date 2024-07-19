@@ -1,8 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Minimal Manifest",
+  "name": "Chess vision",
   "version": "1.0.0",
-  "description": "A chrome extension for chess games image importation",
+  "description": "A chrome extension that brings chess images to life",
+  "icons": {
+    "16": "./images/pawn-16.png",
+    "48": "./images/pawn-16.png"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
