@@ -1,6 +1,5 @@
 import * as tf from '@tensorflow/tfjs'
 
-const IMAGE_SIZE = 240
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
@@ -19,7 +18,7 @@ chrome.contextMenus.onClicked.addListener((item, tab) => {
         };
         chrome.tabs.sendMessage(tab.id, message, async (response) => {
             if (response && response.action === 'RESULT_IMAGE') {
-                chrome.tabs.create({ url: response.dataUrl })
+                // chrome.tabs.create({ url: response.dataUrl })
                 const fen = await predictor.analyze(response.data);
                 console.log(fen)
                 chrome.tabs.create({ url: `https://lichess.org/analysis/fromPosition/${fen}` })
